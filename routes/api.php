@@ -19,13 +19,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('api')->resource('/books', 'BookController', 
-    ['only' => ['index', 'store', 'update', 'show', 'update', 'destroy']]
+    ['only' => ['index', 'store', 'show', 'update', 'destroy']]
 );
 
 Route::middleware('api')->resource('/authors', 'AuthorController', 
-    ['only' => ['index', 'store', 'update', 'show', 'update', 'destroy']]
+    ['only' => ['index', 'store', 'show', 'destroy']]
 );
 
 Route::middleware('api')->resource('/categories', 'CategoryController', 
-    ['only' => ['index', 'store', 'update', 'show', 'update', 'destroy']]
+    ['only' => ['index', 'store', 'show', 'destroy']]
 );

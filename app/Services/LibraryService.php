@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Http\Requests\AuthorStoreRequest;
 use App\Http\Requests\BookGetRequest;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
+use App\Http\Resources\AuthorResource;
 use App\Http\Resources\BookResource;
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -81,5 +84,27 @@ class LibraryService extends BaseService
     public function destroyBook($book) {
         $book->authors()->detach();
         return $book->delete();
+    }
+
+    public function getAuthors() {
+        $authors = Author::paginate(self::PER_PAGE);
+        return AuthorResource::collection($authors);
+    }
+
+    public function storeAuthor(AuthorStoreRequest $request) {
+        $author = new Author();
+        $author->name = $request->input('name');
+        $author->save();
+
+        return new AuthorResource($author);
+    }
+
+    public function getAuthor($author) {
+        return new AuthorResource($author);
+    }
+
+    public function destroyAuthor($author) {
+        $author->books()->detach();
+        return $author->delete();
     }
 }

@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthorStoreRequest;
 use App\Models\Author;
+use App\Services\LibraryService;
 use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
+    private $libraryService;
+
+    public function __construct(LibraryService $service)
+    {
+        $this->libraryService = $service;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +23,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $result = $this->libraryService->getAuthors();
+        return $result;
     }
 
     /**
@@ -33,9 +33,10 @@ class AuthorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AuthorStoreRequest $request)
     {
-        //
+        $result = $this->libraryService->storeAuthor($request);
+        return $result;
     }
 
     /**
@@ -46,30 +47,8 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Author $author)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Author $author)
-    {
-        //
+        $result = $this->libraryService->getAuthor($author);
+        return $result;
     }
 
     /**
@@ -80,6 +59,7 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $result = $this->libraryService->destroyAuthor($author);
+        return $result;
     }
 }
