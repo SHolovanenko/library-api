@@ -18,6 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('api')->resource('/books', 'BookController');
-Route::middleware('api')->resource('/authors', 'AuthorController');
-Route::middleware('api')->resource('/categories', 'CategoryController');
+Route::middleware('api')->resource('/books', 'BookController', 
+    ['only' => ['index', 'store', 'update', 'show', 'update', 'destroy']]
+);
+
+Route::middleware('api')->resource('/authors', 'AuthorController', 
+    ['only' => ['index', 'store', 'update', 'show', 'update', 'destroy']]
+);
+
+Route::middleware('api')->resource('/categories', 'CategoryController', 
+    ['only' => ['index', 'store', 'update', 'show', 'update', 'destroy']]
+);
