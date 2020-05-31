@@ -6,8 +6,10 @@ use App\Http\Requests\AuthorStoreRequest;
 use App\Http\Requests\BookGetRequest;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
+use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\BookResource;
+use App\Http\Resources\CategoryResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
@@ -106,5 +108,27 @@ class LibraryService extends BaseService
     public function destroyAuthor($author) {
         $author->books()->detach();
         return $author->delete();
+    }
+
+    public function getCategories() {
+        $categories = Category::paginate(self::PER_PAGE);
+        return CategoryResource::collection($categories);
+    }
+
+    public function storeCategory(CategoryStoreRequest $request) {
+        $author = new Category();
+        $author->title = $request->input('title');
+        $author->alias = $request->input('alias');
+        $author->save();
+
+        return new CategoryResource($author);
+    }
+
+    public function getCategory($category) {
+        return new CategoryResource($category);
+    }
+
+    public function destroyCategory($category) {
+        return $category->delete();
     }
 }

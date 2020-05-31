@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryStoreRequest;
 use App\Models\Category;
+use App\Services\LibraryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    private $libraryService;
+
+    public function __construct(LibraryService $service)
+    {
+        $this->libraryService = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +23,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $result = $this->libraryService->getCategories();
+        return $result;
     }
 
     /**
@@ -33,9 +33,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        $result = $this->libraryService->storeCategory($request);
+        return $result;
     }
 
     /**
@@ -46,30 +47,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
+        $result = $this->libraryService->getCategory($category);
+        return $result;
     }
 
     /**
@@ -80,6 +59,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $result = $this->libraryService->destroyCategory($category);
+        return $result;
     }
 }
